@@ -1,0 +1,19 @@
+---
+description: 절대 금지 패턴과 대안 (TDD, ECB, UX, 테스트 무결성)
+alwaysApply: true
+---
+
+# Forbidden Patterns
+
+| 금지 | 이유 | 대안 |
+|------|------|------|
+| `print()` 및 stdout/stderr 디버그 | UX-4, 비결정적 출력 | `logging`(prod) 또는 pytest `capsys`(테스트 한정) |
+| 매직 넘버·문자열 (`34`, `4`, `16`, 고정 에러 문구) | 단일 진실 공급원 위반 | `MagicConstant`, `GridSize`, `ErrorMessages` 등 상수·VO |
+| `except:` / `except Exception` 광포 포착 | `DomainError`·계약 실패 은닉 | `except SpecificError as e` 후 재raise 또는 `DomainError`/`ErrorResponse` 매핑 |
+| RED 없이 prod 코드 추가·수정 | Dual-Track TDD 위반 | `magicsquare-tdd-testing` RED 먼저 |
+| assertion 완화·삭제·`skip`·`xfail`로 통과 | 테스트 약화 | 최소 GREEN 구현 또는 요구사항 재정의 후 RED 재작성 |
+| entity가 boundary/control import | ECB 의존 위반 | control→entity, boundary→control만 |
+| boundary에서 `PuzzleSolver`·`MagicSquareValidator` 직접 호출 | 레이어 우회 | `SolvePuzzleUseCase` 경유 |
+| Domain Track 테스트에서 `unittest.mock` | I-D* 검증 무력화 | 실제 `Grid`·Service 인스턴스 |
+
+위반 시 응답 맨 앞에 `TDD WARNING:` / `ECB LAYER WARNING:` / `COVERAGE WARNING:` 블록을 출력한다.

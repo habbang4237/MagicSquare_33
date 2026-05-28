@@ -1,0 +1,9 @@
+# Deprecated: project rules moved to .cursor/rules/
+
+Use these Cursor Project Rules instead:
+
+- .cursor/rules/magicsquare-project.mdc
+- .cursor/rules/magicsquare-python-code-style.mdc
+- .cursor/rules/magicsquare-ecb-architecture.mdc
+- .cursor/rules/magicsquare-tdd-testing.mdc
+- .cursor/rules/magicsquare-forbidden.mdc

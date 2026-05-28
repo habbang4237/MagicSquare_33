@@ -1,0 +1,73 @@
+---
+description: MagicSquare_xx 프로젝트 정체성, 계약, 디렉터리, AI 작업 순서
+alwaysApply: true
+---
+
+# MagicSquare_xx — Project
+
+4×4 마방진 규칙을 명시하고, 배치 유효성을 일관되게 판정하며, 2칸 빈 퍼즐 입력에 대해 계약된 해 `int[6]`를 반환하는 **Dual-Track TDD** 학습 프로젝트.
+
+## 권위 문서
+
+- `Report/01.문제정의_보고서.md`
+- `Report/02.DualTrack_CleanArch_TDD_설계.md`
+- `README.md`
+
+## 고정 계약
+
+| 항목 | 내용 |
+|------|------|
+| 입력 | `int[4][4]`, `0`=빈칸, 정확히 2개 빈칸, 값은 `{0} ∪ [1,16]`, 0이 아닌 값은 유일 |
+| 출력 | `int[6] = [r1,c1,n1,r2,c2,n2]` (1-index 좌표) |
+| 마방 상수 | `M = 34` |
+
+**신뢰 원칙:** 완전 배치·해 제공 주장은 `MagicSquareValidator` 통과와 동일해야 한다.
+
+## 디렉터리 구조
+
+```
+MagicSquare_xx/
+├── src/magicsquare/
+│   ├── boundary/     # 입출력 계약, ErrorResponse, 검증기
+│   ├── control/      # Use Case, 오케스트레이션
+│   ├── entity/       # Grid, VO, Domain Services
+│   └── data/         # (선택) MatrixRepository
+├── tests/
+│   ├── boundary/     # UI Track (Domain Mock)
+│   ├── control/
+│   ├── entity/       # Domain Track (Mock 금지)
+│   └── integration/
+├── Report/
+├── Prompt/
+└── pyproject.toml
+```
+
+| 레이어 | 경로 |
+|--------|------|
+| boundary | `src/magicsquare/boundary/` |
+| control | `src/magicsquare/control/` |
+| entity | `src/magicsquare/entity/` |
+| tests_boundary | `tests/boundary/` |
+| tests_control | `tests/control/` |
+| tests_entity | `tests/entity/` |
+
+## AI 작업 순서
+
+### 코딩 전
+
+- 관련 테스트(`tests/boundary|control|entity`) 존재·내용을 먼저 확인
+- `Report/02`의 해당 Test-ID·Invariant·계약 절 참조
+- 작업 대상 ECB 레이어 명시, 의존 방향 위반 여부 점검
+- 구현 요청 시 RED 단계인지 확인; 아니면 테스트 작성부터 제안
+
+### 코딩 후
+
+- pytest 대상 범위 실행 후 결과 보고
+- TDD·커버리지·레이어 위반 시 응답 맨 앞에 경고 블록 출력:
+  - `TDD WARNING:` — `magicsquare-tdd-testing` 위반
+  - `COVERAGE WARNING:` — line/branch 80% 미만, Boundary branch 85% 미만
+  - `ECB LAYER WARNING:` — `magicsquare-ecb-architecture` 위반
+
+### 구현 요청 시 (테스트 없음)
+
+테스트 스켈레톤(RED)을 먼저 제안하고, 사용자 동의 전 prod 코드 대량 생성 금지.
