@@ -1,0 +1,50 @@
+---
+description: ECB 레이어, Dual-Track, 의존 방향, 레이어별 책임
+globs: "{src/magicsquare/**/*.py,tests/**/*.py}"
+alwaysApply: false
+---
+
+# ECB Architecture
+
+**패턴:** Entity–Control–Boundary (ECB)  
+**방법:** Dual-Track TDD (UI Boundary track + Domain Logic track)
+
+## Dual-Track
+
+| 트랙 | 범위 | Mock |
+|------|------|------|
+| UI | boundary 계약·에러 메시지·호출 순서 | Domain/Application 포트 Mock **필수** |
+| Domain | entity 도메인 규칙·불변조건 (I-D1~I-D12) | **금지** (실제 객체) |
+
+## 레이어 책임
+
+### Boundary
+
+- **역할:** 외부 입출력 (UI 계약, API, CLI, ErrorResponse, `int[4][4]`/`int[6]` 검증)
+- **포함:** `InputContractValidator`, `OutputContractValidator`, `PuzzleBoundary`, 고정 에러 메시지 (E_SIZE, E_RANGE 등)
+- **금지:** 도메인 알고리즘(`PuzzleSolver`, `MagicSquareValidator` 로직) 구현; `DomainError`를 외부에 그대로 노출 (Boundary 코드로 매핑)
+
+### Control
+
+- **역할:** 유스케이스 오케스트레이션 (`SolvePuzzleUseCase`, Grid 변환, Domain 호출 D1→D2→D4, 에러 매핑)
+- **금지:** 입출력 포맷 파싱·고정 UI 문구 하드코딩; 행·열·대각 합 등 순수 도메인 규칙 직접 구현
+
+### Entity
+
+- **역할:** `Grid`, Value Objects, Domain Services (`EmptyCellLocator`, `MissingNumberFinder`, `MagicSquareValidator`, `PuzzleSolver`), `DomainError`
+- **금지:** 파일·DB·콘솔·`print`·UI 문자열; Boundary/Control 타입 import
+
+## 의존 방향
+
+**허용:** `boundary → control → entity`
+
+**금지:**
+
+- `entity → control`, `entity → boundary`
+- `control → boundary`
+- `boundary → entity` (직접 호출 금지, **control 경유**)
+
+## 코딩 중
+
+- ECB 레이어 경계 위반 코드 생성 금지 (`boundary → entity` 직접 호출 등)
+- `tdd_rules` 현재 phase(`red`|`green`|`refactor`)에 맞는 작업만 수행
