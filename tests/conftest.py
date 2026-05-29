@@ -5,6 +5,16 @@ from __future__ import annotations
 import pytest
 
 
+def pytest_addoption(parser: pytest.Parser) -> None:
+    """Register Golden Master approve CLI flag."""
+    parser.addoption(
+        "--approve-golden-master",
+        action="store_true",
+        default=False,
+        help="Overwrite tests/golden_master_expected.txt with current output.",
+    )
+
+
 @pytest.fixture
 def invalid_blank_1() -> None:
     """PRD §16.4 `invalid_blank_1` — U-T02a: 4×4, exactly one `0`."""

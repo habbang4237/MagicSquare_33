@@ -5,6 +5,8 @@ from __future__ import annotations
 from typing import Any
 
 from boundary.error_messages import (
+    E_DUPLICATE_CODE,
+    E_DUPLICATE_MESSAGE,
     E_EMPTY_COUNT_CODE,
     E_EMPTY_COUNT_MESSAGE,
     INVALID_SIZE_CODE,
@@ -54,5 +56,11 @@ class InputContractValidator:
             return ErrorResponse(
                 code=E_EMPTY_COUNT_CODE,
                 message=E_EMPTY_COUNT_MESSAGE,
+            )
+        non_zero_values = [cell for row in grid for cell in row if cell != 0]
+        if len(non_zero_values) != len(set(non_zero_values)):
+            return ErrorResponse(
+                code=E_DUPLICATE_CODE,
+                message=E_DUPLICATE_MESSAGE,
             )
         return None
