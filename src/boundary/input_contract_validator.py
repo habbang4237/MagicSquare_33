@@ -25,4 +25,9 @@ class InputContractValidator:
                 code=INVALID_SIZE_CODE,
                 message=INVALID_SIZE_MESSAGE,
             )
+        if len(grid) == 0:
+            return ErrorResponse(
+                code=INVALID_SIZE_CODE,
+                message=INVALID_SIZE_MESSAGE,
+            )
         return None
