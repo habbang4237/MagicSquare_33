@@ -4,10 +4,16 @@ from __future__ import annotations
 
 from typing import Any
 
-from boundary.error_messages import INVALID_SIZE_CODE, INVALID_SIZE_MESSAGE
+from boundary.error_messages import (
+    E_EMPTY_COUNT_CODE,
+    E_EMPTY_COUNT_MESSAGE,
+    INVALID_SIZE_CODE,
+    INVALID_SIZE_MESSAGE,
+)
 from boundary.error_response import ErrorResponse
 
 _GRID_DIMENSION = 4
+_REQUIRED_EMPTY_COUNT = 2
 
 
 class InputContractValidator:
@@ -43,4 +49,10 @@ class InputContractValidator:
                     code=INVALID_SIZE_CODE,
                     message=INVALID_SIZE_MESSAGE,
                 )
+        empty_count = sum(cell == 0 for row in grid for cell in row)
+        if empty_count != _REQUIRED_EMPTY_COUNT:
+            return ErrorResponse(
+                code=E_EMPTY_COUNT_CODE,
+                message=E_EMPTY_COUNT_MESSAGE,
+            )
         return None
