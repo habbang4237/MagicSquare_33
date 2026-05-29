@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import pytest
 
+from entity.cell_position import CellPosition
 from entity.empty_cell_locator import EmptyCellLocator
 from entity.errors import DomainError
 from entity.grid import Grid
@@ -20,12 +21,22 @@ class TestDt03RowMajorBlanksRed:
     ) -> None:
         """D-T03, I-D8, I-D11 — fixture row_major_blanks → (2,3), (3,1) 1-index."""
         # Given — fixture: row_major_blanks (1st blank (2,3), 2nd (3,1))
-        # grid = Grid.of(...)  # TODO: lock 16 integers per Report/02
-        # locator = EmptyCellLocator()
+        grid = Grid.of(
+            [
+                [16, 3, 2, 13],
+                [5, 10, 0, 8],
+                [0, 6, 7, 12],
+                [4, 15, 14, 1],
+            ]
+        )
+        locator = EmptyCellLocator()
+
         # When
-        # pair = locator.locate(grid)
-        # Then — first slot (2,3), second (3,1)
-        pytest.fail("RED: D-T03 — row_major_blanks → (2,3), (3,1)")
+        pair = locator.locate(grid)
+
+        # Then
+        assert pair.first == CellPosition(row=2, col=3)
+        assert pair.second == CellPosition(row=3, col=1)
 
 
 @pytest.mark.unit
