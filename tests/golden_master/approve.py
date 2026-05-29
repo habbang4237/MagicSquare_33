@@ -10,6 +10,7 @@ from .capture import build_golden_master_document, build_scenario_block
 from .scenarios import GoldenMasterScenario
 
 DEFAULT_GOLDEN_PATH = Path(__file__).resolve().parents[1] / "golden_master_expected.txt"
+DEFAULT_GOLDEN_MASTER_PATH = DEFAULT_GOLDEN_PATH
 _BLOCK_HEADER = re.compile(r"^\[(?P<id>GM-TC-\d{2})\]\s*$", re.MULTILINE)
 
 
@@ -92,6 +93,46 @@ def approve_or_compare_scenario(
         )
 
 
+def approve_golden_master(
+    actual: str,
+    path: Path = DEFAULT_GOLDEN_PATH,
+    *,
+    auto_create: bool = True,
+    force_update: bool = False,
+) -> str:
+    """Create, compare, or update the golden master baseline.
+
+    Args:
+        actual: Captured solver output document.
+        path: Target golden master file path.
+        auto_create: When ``True``, write baseline if the file is missing.
+        force_update: When ``True``, overwrite baseline on mismatch.
+
+    Returns:
+        ``"created"``, ``"updated"``, or ``"unchanged"``.
+
+    Raises:
+        AssertionError: When baseline is missing (``auto_create=False``) or differs.
+    """
+    expected = read_golden_master(path)
+
+    if expected is None:
+        if not auto_create:
+            raise AssertionError(f"Golden master missing: {path}")
+        write_golden_master(actual, path)
+        return "created"
+
+    if expected == actual:
+        return "unchanged"
+
+    if force_update:
+        write_golden_master(actual, path)
+        return "updated"
+
+    diff = unified_diff(expected, actual, path.name)
+    raise AssertionError(f"Golden Master mismatch: {path}\n{diff}")
+
+
 def approve_or_compare(*, approve: bool, path: Path = DEFAULT_GOLDEN_PATH) -> None:
     """Create, compare, or update the full golden master baseline.
 
@@ -103,15 +144,9 @@ def approve_or_compare(*, approve: bool, path: Path = DEFAULT_GOLDEN_PATH) -> No
         AssertionError: When actual output differs from the baseline.
     """
     actual = build_golden_master_document()
-    expected = read_golden_master(path)
-
-    if expected is None or approve:
-        write_golden_master(actual, path)
-        return
-
-    if expected != actual:
-        diff = unified_diff(expected, actual, path.name)
-        raise AssertionError(
-            "Golden Master mismatch. Run with --approve-golden-master to update.\n"
-            f"{diff}"
-        )
+    approve_golden_master(
+        actual,
+        path,
+        auto_create=True,
+        force_update=approve,
+    )

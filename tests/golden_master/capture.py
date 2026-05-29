@@ -30,19 +30,26 @@ def serialize_scenario_block(scenario: GoldenMasterScenario, result: Any) -> str
     return "\n".join(lines)
 
 
-def capture_boundary_result(grid: list[list[int]]) -> list[int] | ErrorResponse:
+def capture_boundary_result(
+    grid: list[list[int]],
+    boundary: PuzzleBoundary | None = None,
+) -> list[int] | ErrorResponse:
     """Run full Boundary stack and return the contract payload."""
-    boundary = PuzzleBoundary(use_case=SolvePuzzleUseCase())
+    if boundary is None:
+        boundary = PuzzleBoundary(use_case=SolvePuzzleUseCase())
     return boundary.receive(grid)
 
 
-def build_scenario_block(scenario: GoldenMasterScenario) -> str:
+def build_scenario_block(
+    scenario: GoldenMasterScenario,
+    boundary: PuzzleBoundary | None = None,
+) -> str:
     """Capture one scenario and return its serialized block."""
-    result = capture_boundary_result(scenario.grid)
+    result = capture_boundary_result(scenario.grid, boundary)
     return serialize_scenario_block(scenario, result)
 
 
-def build_golden_master_document() -> str:
+def build_golden_master_document(boundary: PuzzleBoundary | None = None) -> str:
     """Capture all GM scenarios and return the full expected document."""
-    blocks = [build_scenario_block(scenario) for scenario in GM_SCENARIOS]
+    blocks = [build_scenario_block(scenario, boundary) for scenario in GM_SCENARIOS]
     return "\n\n".join(blocks) + "\n"
