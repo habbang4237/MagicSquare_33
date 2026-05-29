@@ -210,8 +210,8 @@ RED 착수 전 아래 항목을 모두 확인합니다.
 - [ ] 전체 TOTAL: 90%+
 
 ### 결함 목록 연결
-- [ ] defect_list.md 생성 및 발견 결함 기록
-- [ ] 모든 결함 수정 후 회귀 테스트 통과 확인
+- [x] defect_list.md 생성 및 발견 결함 기록
+- [ ] 모든 결함 수정 후 회귀 테스트 통과 확인 ([defect_list.md](defect_list.md) Open: DEF-001~004)
 
 ---
 
@@ -272,6 +272,7 @@ python -m pytest tests/boundary/ --cov=boundary --cov-branch --cov-report=term-m
 | [Report/03.CursorRules_UserEntity_구현보고서.md](Report/03.CursorRules_UserEntity_구현보고서.md) | 개발 환경·Cursor Rules·pytest 설정·ECB Entity Track 실습(`User` 보조) — 본 퍼즐 FR 범위 외 참고 |
 | [Report/04.ProjectRules_MDC_Migration_구현보고서.md](Report/04.ProjectRules_MDC_Migration_구현보고서.md) | `.cursor/rules/*.mdc` 분리·프로젝트 규칙 마이그레이션 기록 |
 | [Report/07.README_TDD_시작_구현보고서.md](Report/07.README_TDD_시작_구현보고서.md) | README TDD 시작 가이드 작성·적용·Tracking Board 고정 기록 |
+| [Report/08.QA_Defect_Structure_구현보고서.md](Report/08.QA_Defect_Structure_구현보고서.md) | 커버리지 진단·`src/` 구조 평탄화·AC-FR-01-01 QA·`defect_list.md` |
 | `.cursorrules` | **Deprecated** — 규칙은 `.cursor/rules/*.mdc`로 이전됨을 안내 |
 | `.cursor/rules/magicsquare-project.mdc` | 프로젝트 고정 계약·디렉터리·AI 작업 순서·경고 블록 정책 |
 | `.cursor/rules/magicsquare-tdd-testing.mdc` | Dual-Track RED/GREEN/REFACTOR·pytest·AAA·커버리지·Mock 정책 |
