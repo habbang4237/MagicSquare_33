@@ -36,9 +36,31 @@ class PuzzleBoundary:
         Returns:
             ``ErrorResponse`` on validation failure; solution ``int[6]`` otherwise.
         """
-        validation_result = self._validator.validate(grid)
+        validation_result = self._validate_input(grid)
         if validation_result is not None:
             return validation_result
+        return self._execute_and_map(grid)
+
+    def _validate_input(self, grid: Any) -> ErrorResponse | None:
+        """Run input contract validation.
+
+        Args:
+            grid: External puzzle grid payload.
+
+        Returns:
+            ``ErrorResponse`` when validation fails; ``None`` when input is valid.
+        """
+        return self._validator.validate(grid)
+
+    def _execute_and_map(self, grid: Any) -> ErrorResponse | list[int]:
+        """Delegate to Control and map failures to Boundary errors.
+
+        Args:
+            grid: Validated ``int[4][4]`` puzzle grid.
+
+        Returns:
+            Solution ``int[6]`` or mapped ``ErrorResponse``.
+        """
         result = self._use_case.try_execute(grid)
         if isinstance(result, UseCaseError):
             return self._map_use_case_error(result)
