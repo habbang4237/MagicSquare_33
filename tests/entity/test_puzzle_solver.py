@@ -7,6 +7,16 @@ import pytest
 from entity.errors import DomainError
 from entity.grid import Grid
 from entity.puzzle_solver import PuzzleSolver
+from entity.solution_vector import SolutionVector
+
+# Report/02·D-T01 anchor — attempt A only valid (classic 4×4, blanks at (2,1),(3,3))
+SMALL_FIRST_SUCCESS_GRID = [
+    [16, 3, 2, 13],
+    [0, 10, 11, 8],
+    [9, 6, 0, 12],
+    [4, 15, 14, 1],
+]
+EXPECTED_D_T01_SOLUTION = [2, 1, 5, 3, 3, 7]
 
 # UC-D4: attempt A (m1 at first slot) before attempt B (m2 at first slot).
 
@@ -17,16 +27,18 @@ class TestDt01SmallFirstSuccessRed:
 
     def test_d_t01_small_first_success_returns_solution_vector(
         self,
-        small_first_success: None,
     ) -> None:
         """D-T01 — fixture small_first_success → [r1,c1,m1,r2,c2,m2]."""
-        # Given — fixture: small_first_success
-        # grid = Grid.of(...)  # TODO: lock literals per Report/02
-        # solver = PuzzleSolver()
+        # Given
+        grid = Grid.of(SMALL_FIRST_SUCCESS_GRID)
+        solver = PuzzleSolver()
+
         # When
-        # solution = solver.solve(grid)
-        # Then — [r1,c1,m1,r2,c2,m2] per fixture
-        pytest.fail("RED: D-T01 — small_first_success → SolutionVector")
+        solution = solver.solve(grid)
+
+        # Then
+        assert isinstance(solution, SolutionVector)
+        assert solution.to_array() == EXPECTED_D_T01_SOLUTION
 
 
 @pytest.mark.unit

@@ -1,0 +1,2 @@
+[console_scripts]
+magicsquare-gui = boundary.screen.app:main

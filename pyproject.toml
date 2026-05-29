@@ -7,6 +7,10 @@ dependencies = []
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0"]
+gui = ["PyQt6>=6.6"]
+
+[project.scripts]
+magicsquare-gui = "boundary.screen.app:main"
 
 [build-system]
 requires = ["setuptools>=68"]
@@ -16,9 +20,14 @@ build-backend = "setuptools.build_meta"
 where = ["src"]
 
 [tool.pytest.ini_options]
-pythonpath = ["src"]
+pythonpath = ["src", "tests"]
 testpaths = ["tests"]
 addopts = "-ra"
+markers = [
+    "unit: unit-level contract tests",
+    "integration: end-to-end or golden master tests",
+    "golden_master: Golden Master / approval regression tests (GM-1, GM-2)",
+]
 
 [tool.black]
 line-length = 88

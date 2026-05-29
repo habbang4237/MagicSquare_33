@@ -12,6 +12,20 @@ from control.solve_puzzle_use_case import SolvePuzzleUseCase
 # ECB: Boundary must not call PuzzleSolver / MagicSquareValidator directly.
 # Invalid input → SolvePuzzleUseCase.execute 0회 (AC-FR01-5).
 
+# PRD §13 / AC-FR01-2 고정 계약 (Boundary 노출 코드)
+EXPECTED_EMPTY_COUNT_CODE = "E_EMPTY_COUNT"
+EXPECTED_EMPTY_COUNT_MESSAGE = (
+    "ERROR: Grid must contain exactly 2 empty cells (0)."
+)
+
+# Report/02·D-T03 앵커 — size·empty-count·range·duplicate 통과용
+VALID_GRID = [
+    [16, 3, 2, 13],
+    [5, 0, 11, 8],
+    [9, 6, 0, 12],
+    [4, 15, 14, 1],
+]
+
 
 @pytest.mark.unit
 class TestUt02EmptyCountRed:
@@ -20,12 +34,21 @@ class TestUt02EmptyCountRed:
     def test_u_t02a_zero_empty_cells_returns_e_empty_count(self) -> None:
         """U-T02a, AC-FR01-2 — count(0)==0 → E_EMPTY_COUNT."""
         # Given — fixture label: invalid_blank_0 (4×4, no zeros)
-        # grid = ...  # TODO: lock literal per Report/02
-        # validator = InputContractValidator()
+        grid = [
+            [1, 2, 3, 4],
+            [5, 6, 7, 8],
+            [9, 10, 11, 12],
+            [13, 14, 15, 16],
+        ]
+        validator = InputContractValidator()
+
         # When
-        # result = validator.validate(grid)
-        # Then — E_EMPTY_COUNT
-        pytest.fail("RED: U-T02a — 빈칸 0개 → E_EMPTY_COUNT")
+        result = validator.validate(grid)
+
+        # Then
+        assert isinstance(result, ErrorResponse)
+        assert result.code == EXPECTED_EMPTY_COUNT_CODE
+        assert result.message == EXPECTED_EMPTY_COUNT_MESSAGE
 
     def test_u_t02b_three_empty_cells_returns_e_empty_count(self) -> None:
         """U-T02b, AC-FR01-2 — count(0)==3 → E_EMPTY_COUNT."""

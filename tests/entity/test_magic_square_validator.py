@@ -16,13 +16,22 @@ class TestDt04ValidGridRed:
 
     def test_d_t04_complete_valid_grid_is_valid_true(self) -> None:
         """D-T04 — known complete 4×4 magic square → is_valid True."""
-        # Given — complete valid 16-cell grid
-        # grid = Grid.of(...)  # TODO: lock literals per Report/02
-        # validator = MagicSquareValidator()
+        # Given
+        grid = Grid.of(
+            [
+                [16, 3, 2, 13],
+                [5, 10, 11, 8],
+                [9, 6, 7, 12],
+                [4, 15, 14, 1],
+            ]
+        )
+        validator = MagicSquareValidator()
+
         # When
-        # result = validator.is_valid(grid)
-        # Then — result is True
-        pytest.fail("RED: D-T04 — 완성 유효 격자 → is_valid True")
+        result = validator.is_valid(grid)
+
+        # Then
+        assert result is True
 
 
 @pytest.mark.unit

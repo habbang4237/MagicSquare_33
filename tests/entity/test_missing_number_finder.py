@@ -6,6 +6,15 @@ import pytest
 
 from entity.grid import Grid
 from entity.missing_number_finder import MissingNumberFinder
+from entity.missing_pair import MissingPair
+
+# Report/02·D-T03 anchor — 14 filled cells, missing 7 and 10
+PUZZLE_GRID_D_T05 = [
+    [16, 3, 2, 13],
+    [5, 0, 11, 8],
+    [9, 6, 0, 12],
+    [4, 15, 14, 1],
+]
 
 # I-D10: MissingPair always two values with m1 < m2.
 
@@ -18,10 +27,12 @@ class TestDt05MissingPairRed:
         self,
     ) -> None:
         """D-T05 — 14-cell fixture → (m1, m2) with m1 < m2."""
-        # Given — 4×4 puzzle grid with exactly two missing values in [1,16]
-        # grid = Grid.of(...)  # TODO: lock literals per Report/02
-        # finder = MissingNumberFinder()
+        # Given
+        grid = Grid.of(PUZZLE_GRID_D_T05)
+        finder = MissingNumberFinder()
+
         # When
-        # pair = finder.find(grid)
-        # Then — m1 < m2, fixed expected pair per fixture
-        pytest.fail("RED: D-T05 — 14칸 픽스처 → MissingPair m1<m2")
+        pair = finder.find(grid)
+
+        # Then
+        assert pair == MissingPair(m1=7, m2=10)
