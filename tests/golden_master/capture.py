@@ -17,9 +17,9 @@ def format_grid(grid: list[list[int]]) -> str:
 
 
 def serialize_scenario_block(scenario: GoldenMasterScenario, result: Any) -> str:
-    """Format one ``[scenario_name]`` block for the golden master file."""
+    """Format one ``[GM-TC-XX]`` block for the golden master file."""
     lines = [
-        f"[{scenario.name}]",
+        f"[{scenario.test_case_id}]",
         "Input:",
         format_grid(scenario.grid),
     ]
@@ -36,10 +36,13 @@ def capture_boundary_result(grid: list[list[int]]) -> list[int] | ErrorResponse:
     return boundary.receive(grid)
 
 
+def build_scenario_block(scenario: GoldenMasterScenario) -> str:
+    """Capture one scenario and return its serialized block."""
+    result = capture_boundary_result(scenario.grid)
+    return serialize_scenario_block(scenario, result)
+
+
 def build_golden_master_document() -> str:
     """Capture all GM scenarios and return the full expected document."""
-    blocks: list[str] = []
-    for scenario in GM_SCENARIOS:
-        result = capture_boundary_result(scenario.grid)
-        blocks.append(serialize_scenario_block(scenario, result))
+    blocks = [build_scenario_block(scenario) for scenario in GM_SCENARIOS]
     return "\n\n".join(blocks) + "\n"

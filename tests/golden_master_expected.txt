@@ -1,13 +1,13 @@
-[normal_success]
+[GM-TC-01]
 Input:
-16 2 3 13
-5 11 10 8
-9 7 0 12
-4 14 15 0
+16 3 2 13
+0 10 11 8
+9 6 0 12
+4 15 14 1
 Output:
-[3, 3, 6, 4, 4, 1]
+[2, 1, 5, 3, 3, 7]
 
-[reverse_success]
+[GM-TC-02]
 Input:
 16 3 2 13
 5 0 11 8
@@ -16,7 +16,7 @@ Input:
 Output:
 [2, 2, 10, 3, 3, 7]
 
-[invalid_blank_count]
+[GM-TC-03]
 Input:
 1 2 3 4
 5 6 7 8
@@ -25,7 +25,7 @@ Input:
 Error:
 E_EMPTY_COUNT
 
-[duplicate_number]
+[GM-TC-04]
 Input:
 16 3 2 13
 5 0 11 8
@@ -34,7 +34,7 @@ Input:
 Error:
 E_DUPLICATE
 
-[no_valid_solution]
+[GM-TC-05]
 Input:
 1 2 3 4
 5 6 7 8
