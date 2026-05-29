@@ -7,9 +7,11 @@ src/boundary/input_contract_validator.py
 src/boundary/puzzle_boundary.py
 src/boundary/screen/__init__.py
 src/boundary/screen/app.py
+src/boundary/screen/grid_ui_constants.py
 src/boundary/screen/main_window.py
 src/control/__init__.py
 src/control/solve_puzzle_use_case.py
+src/control/use_case_error.py
 src/entity/__init__.py
 src/entity/cell_position.py
 src/entity/cell_value_constants.py
@@ -30,5 +32,6 @@ src/entity/user_constants.py
 src/magicsquare.egg-info/PKG-INFO
 src/magicsquare.egg-info/SOURCES.txt
 src/magicsquare.egg-info/dependency_links.txt
+src/magicsquare.egg-info/entry_points.txt
 src/magicsquare.egg-info/requires.txt
 src/magicsquare.egg-info/top_level.txt

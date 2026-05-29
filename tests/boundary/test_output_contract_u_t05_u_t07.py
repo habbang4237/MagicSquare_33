@@ -30,7 +30,7 @@ class TestUt05OutputSuccessRed:
         """U-T05 — Mock execute → len(result)==6, execute 1회."""
         # Given
         mock_use_case = Mock(spec=SolvePuzzleUseCase)
-        mock_use_case.execute.return_value = EXPECTED_SOLUTION
+        mock_use_case.try_execute.return_value = EXPECTED_SOLUTION
         boundary = PuzzleBoundary(use_case=mock_use_case)
 
         # When
@@ -41,7 +41,7 @@ class TestUt05OutputSuccessRed:
         assert isinstance(result, list)
         assert len(result) == 6
         assert result == EXPECTED_SOLUTION
-        mock_use_case.execute.assert_called_once_with(VALID_GRID)
+        mock_use_case.try_execute.assert_called_once_with(VALID_GRID)
 
 
 @pytest.mark.unit
