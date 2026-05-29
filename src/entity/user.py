@@ -5,8 +5,8 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
-from magicsquare.entity.errors import DomainError
-from magicsquare.entity.user_constants import (
+from entity.errors import DomainError
+from entity.user_constants import (
     MAX_DISPLAY_NAME_LENGTH,
     MAX_EMAIL_LENGTH,
     MAX_USER_ID_LENGTH,

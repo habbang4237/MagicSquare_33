@@ -1,6 +1,6 @@
 ---
 description: ECB 레이어, Dual-Track, 의존 방향, 레이어별 책임
-globs: "{src/magicsquare/**/*.py,tests/**/*.py}"
+globs: "{src/**/*.py,tests/**/*.py}"
 alwaysApply: false
 ---
 

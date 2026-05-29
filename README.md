@@ -184,7 +184,66 @@ RED 착수 전 아래 항목을 모두 확인합니다.
 
 ---
 
-## 8. Quality Gates
+## RED 단계 To-Do 리스트
+
+> 이 체크리스트는 test_plan.md 기반으로 생성되었습니다.
+> 각 항목은 RED(실패 테스트 작성) 완료 시 체크합니다.
+
+### Track A — UI / Boundary 테스트
+- [ ] TC-A-01: grid=None 입력 → 실패 결과 반환 (Happy Path of Failure)
+- [ ] TC-A-02: code가 정확히 "INVALID_SIZE" 문자열인지 검증
+- [ ] TC-A-03: message가 "Grid must be 4x4." 와 문자 단위 동일한지 검증
+- [ ] TC-A-04: grid=None 시 Domain 진입점 0회 호출 (mock/spy 검증)
+- [ ] TC-A-05: grid=[] 빈 리스트 → 실패 결과 반환
+- [ ] TC-A-06: grid=3×4 크기 불일치 → 실패 결과 반환
+- [ ] TC-A-07: 반환 객체 타입이 지정 실패 결과 구조체인지 검증
+
+### Track B — Domain / Logic 테스트
+- [ ] TC-B-01: resolve()가 None grid를 직접 받지 않음을 격리 검증
+- [ ] TC-B-02: Boundary가 None 분기를 처리 후 resolve() 미호출 확인
+- [ ] TC-B-03: resolve() mock이 호출됐을 경우 테스트 실패 처리
+- [ ] TC-B-04: AC-FR-01-02~05 범위의 케이스는 이 커밋에 포함하지 않음 확인
+
+### 커버리지 목표
+- [ ] Domain Logic: 95%+ (pip install pytest-cov)
+- [ ] Boundary Layer: 85%+
+- [ ] 전체 TOTAL: 90%+
+
+### 결함 목록 연결
+- [x] defect_list.md 생성 및 발견 결함 기록
+- [ ] 모든 결함 수정 후 회귀 테스트 통과 확인 ([defect_list.md](defect_list.md) Open: DEF-001~004)
+
+---
+
+## 8. Project Layout
+
+소스는 `src/` 아래 ECB 레이어 패키지로 분리합니다 (`pythonpath = ["src"]`).
+
+```
+src/
+├── boundary/   # 입출력 계약, ErrorResponse, 검증기
+├── control/    # Use Case, 오케스트레이션
+├── entity/     # Grid, VO, Domain Services
+└── data/       # (선택) MatrixRepository
+tests/
+├── boundary/   # UI Track (Domain Mock)
+├── control/
+├── entity/     # Domain Track (Mock 금지)
+└── integration/
+```
+
+**import 예:** `from entity.user import User`, `from boundary.puzzle_boundary import PuzzleBoundary`
+
+**커버리지 예:**
+
+```bash
+python -m pytest tests/entity/ --cov=entity --cov-report=term-missing
+python -m pytest tests/boundary/ --cov=boundary --cov-branch --cov-report=term-missing
+```
+
+---
+
+## 9. Quality Gates
 
 | Gate | 기준 | 검증 |
 |------|------|------|
@@ -203,7 +262,7 @@ RED 착수 전 아래 항목을 모두 확인합니다.
 
 ---
 
-## 9. Reference Documents
+## 10. Reference Documents
 
 | 문서 | 역할 |
 |------|------|
@@ -213,6 +272,7 @@ RED 착수 전 아래 항목을 모두 확인합니다.
 | [Report/03.CursorRules_UserEntity_구현보고서.md](Report/03.CursorRules_UserEntity_구현보고서.md) | 개발 환경·Cursor Rules·pytest 설정·ECB Entity Track 실습(`User` 보조) — 본 퍼즐 FR 범위 외 참고 |
 | [Report/04.ProjectRules_MDC_Migration_구현보고서.md](Report/04.ProjectRules_MDC_Migration_구현보고서.md) | `.cursor/rules/*.mdc` 분리·프로젝트 규칙 마이그레이션 기록 |
 | [Report/07.README_TDD_시작_구현보고서.md](Report/07.README_TDD_시작_구현보고서.md) | README TDD 시작 가이드 작성·적용·Tracking Board 고정 기록 |
+| [Report/08.QA_Defect_Structure_구현보고서.md](Report/08.QA_Defect_Structure_구현보고서.md) | 커버리지 진단·`src/` 구조 평탄화·AC-FR-01-01 QA·`defect_list.md` |
 | `.cursorrules` | **Deprecated** — 규칙은 `.cursor/rules/*.mdc`로 이전됨을 안내 |
 | `.cursor/rules/magicsquare-project.mdc` | 프로젝트 고정 계약·디렉터리·AI 작업 순서·경고 블록 정책 |
 | `.cursor/rules/magicsquare-tdd-testing.mdc` | Dual-Track RED/GREEN/REFACTOR·pytest·AAA·커버리지·Mock 정책 |
@@ -222,7 +282,7 @@ RED 착수 전 아래 항목을 모두 확인합니다.
 
 ---
 
-## 10. Current Project Status
+## 11. Current Project Status
 
 | 항목 | 상태 |
 |------|------|
