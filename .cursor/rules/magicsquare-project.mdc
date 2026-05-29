@@ -27,7 +27,7 @@ alwaysApply: true
 
 ```
 MagicSquare_33/
-├── src/magicsquare/
+├── src/
 │   ├── boundary/     # 입출력 계약, ErrorResponse, 검증기
 │   ├── control/      # Use Case, 오케스트레이션
 │   ├── entity/       # Grid, VO, Domain Services
@@ -44,9 +44,9 @@ MagicSquare_33/
 
 | 레이어 | 경로 |
 |--------|------|
-| boundary | `src/magicsquare/boundary/` |
-| control | `src/magicsquare/control/` |
-| entity | `src/magicsquare/entity/` |
+| boundary | `src/boundary/` |
+| control | `src/control/` |
+| entity | `src/entity/` |
 | tests_boundary | `tests/boundary/` |
 | tests_control | `tests/control/` |
 | tests_entity | `tests/entity/` |

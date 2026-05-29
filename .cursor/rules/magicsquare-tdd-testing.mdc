@@ -1,6 +1,6 @@
 ---
 description: Dual-Track TDD RED/GREEN/REFACTOR, pytest, 커버리지, AAA
-globs: "{tests/**/*.py,src/magicsquare/**/*.py}"
+globs: "{tests/**/*.py,src/**/*.py}"
 alwaysApply: false
 ---
 

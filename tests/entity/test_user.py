@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import pytest
 
-from magicsquare.entity.errors import DomainError
-from magicsquare.entity.user import User
-from magicsquare.entity.user_constants import (
+from entity.errors import DomainError
+from entity.user import User
+from entity.user_constants import (
     MAX_DISPLAY_NAME_LENGTH,
     MAX_USER_ID_LENGTH,
 )
