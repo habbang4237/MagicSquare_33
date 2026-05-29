@@ -5,6 +5,9 @@ src/boundary/error_messages.py
 src/boundary/error_response.py
 src/boundary/input_contract_validator.py
 src/boundary/puzzle_boundary.py
+src/boundary/screen/__init__.py
+src/boundary/screen/app.py
+src/boundary/screen/main_window.py
 src/control/__init__.py
 src/control/solve_puzzle_use_case.py
 src/entity/__init__.py

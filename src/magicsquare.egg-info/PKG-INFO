@@ -5,3 +5,5 @@ Summary: 4x4 Magic Square TDD learning project
 Requires-Python: >=3.12
 Provides-Extra: dev
 Requires-Dist: pytest>=8.0; extra == "dev"
+Provides-Extra: gui
+Requires-Dist: PyQt6>=6.6; extra == "gui"
